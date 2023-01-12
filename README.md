@@ -1,5 +1,5 @@
 # IDS_Master_Maintenance_test_tools
-Docker Compose configuration to run PHP 7.1 with Nginx, PHP-FPM, PostgreSQL 10.1 and Composer.
+Docker Compose configuration to run PHP 7.4 with Nginx, PHP-FPM, PostgreSQL 10.1 and Composer.
 
 ## Overview
 
