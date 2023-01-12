@@ -1,21 +1,34 @@
-/**
- * Init data for form
- */
-let dataStore = sessionStorage.getItem('connection');
-function initData() {
+const CONNECTION_KEY = 'connection'
+var dataStore = localStorage.getItem(CONNECTION_KEY);
+
+window.onbeforeunload = function () {
+    let connectForm = getDataFromFormInput();
+    localStorage.setItem(CONNECTION_KEY, JSON.stringify(connectForm));
+}
+window.onload = function () {
+    passDataFormWhenConnect();
+}
+
+function passDataFormWhenConnect() {
+    dataStore = localStorage.getItem(CONNECTION_KEY);
+    console.log('dataStore', dataStore);
+    initData(dataStore);
+}
+
+function initData(dataStoreImport) {
     let initConnect = null;
-    if (!dataStore) {
+    if (!dataStoreImport) {
         initConnect = {
-            'host': 'localhost',
-            'port': 5433,
+            'host': 'db',
+            'port': 5432,
             'dbName': 'Mater_maintenace_test_tools',
             'userName': 'postgres',
             'password': 'root',
             'numberConnections': 10
         };
-        sessionStorage.setItem('connection', JSON.stringify(initConnect));
+        localStorage.setItem(CONNECTION_KEY, JSON.stringify(initConnect));
     } else {
-        initConnect = JSON.parse(dataStore);
+        initConnect = typeof dataStoreImport === 'object' ? dataStoreImport : JSON.parse(dataStoreImport);
     }
     $('#host').val(initConnect.host);
     $('#port').val(initConnect.port);
@@ -24,6 +37,18 @@ function initData() {
     $('#password').val(initConnect.password);
     $('#numberConnections').val(initConnect.numberConnections);
 }
+function getDataFromFormInput() {
+    let connectForm = {
+        'host': $('#host').val(),
+        'port': $('#port').val(),
+        'dbName': $('#dbName').val(),
+        'userName': $('#userName').val(),
+        'password': $('#password').val(),
+        'numberConnections': $('#numberConnections').val()
+    };
+    return connectForm;
+}
+
 function updateData(host, port, dbName, userName, password, numberConnections) {
     let updateConnect = {
         'host': host,
@@ -33,7 +58,7 @@ function updateData(host, port, dbName, userName, password, numberConnections) {
         'password': password,
         'numberConnections': numberConnections
     };
-    sessionStorage.setItem('connection', JSON.stringify(updateConnect));
+    localStorage.setItem(CONNECTION_KEY, JSON.stringify(updateConnect));
 }
 
 /**
@@ -79,9 +104,10 @@ var toastMaintenace = {
  * @param totalValue - The total number of items to be processed.
  */
 function changeProgress(partialValue, totalValue) {
+    passDataFormWhenConnect();
     let percent = (100 * partialValue) / totalValue;
     if (percent) {
-        console.info("Percent: ", percent+'%');
+        console.info("Percent: ", percent + '%');
         $(".progress").removeClass("d-none")
         $("#progress").css('width', percent + '%')
             .attr("aria-valuenow", partialValue)
@@ -102,11 +128,11 @@ function changeNumberConnections() {
         }
     });
 }
-function scrollToProgress(){
+function scrollToProgress() {
     $("html, body").animate({ scrollTop: 1000 }, 500);
 }
 $(document).ready(function () {
-    initData();
+    initData(dataStore);
     changeNumberConnections();
     showToast();
     changeProgress();

@@ -5,11 +5,11 @@ require_once("function.php");
 
 $config = new ConnectDB();
 if (isset($_POST['btnConnect']) && isset($_POST['dbName']) && isset($_POST['host']) && isset($_POST['port']) && isset($_POST['userName']) && isset($_POST['password']) && isset($_POST['numberConnections'])) {
-    $host = $_POST['host'];
-    $port = $_POST['port'];
-    $dbName = $_POST['dbName'];
-    $userName = $_POST['userName'];
-    $password = $_POST['password'];
+    $host = (string)$_POST['host'];
+    $port = (int)$_POST['port'];
+    $dbName = (string)$_POST['dbName'];
+    $userName = (string)$_POST['userName'];
+    $password = (string)$_POST['password'];
     $numberConnections = (int)$_POST['numberConnections'];
     updateData($host, $port, $dbName, $userName, $password, $numberConnections);
 

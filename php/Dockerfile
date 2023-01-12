@@ -1,4 +1,4 @@
-FROM php:7.1-fpm
+FROM php:7.4-fpm
 
 MAINTAINER Hoang Huy Duc <duchh@vn.ids.jp>
 
@@ -24,5 +24,5 @@ RUN apt-get update && apt-get install -y && apt-get -y install sudo \
       libmagickwand-dev
 
 # Install extensions
-RUN docker-php-ext-install gd intl zip exif pdo pdo_pgsql
+RUN docker-php-ext-install gd intl zip exif pdo pdo_pgsql pgsql
 RUN docker-php-ext-configure gd --with-jpeg=/usr/include/ --with-freetype=/usr/include/

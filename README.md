@@ -1,4 +1,4 @@
-# docker-php-nginx-postgres-composer
+# IDS_Master_Maintenance_test_tools
 Docker Compose configuration to run PHP 7.1 with Nginx, PHP-FPM, PostgreSQL 10.1 and Composer.
 
 ## Overview
@@ -64,14 +64,14 @@ You can execute any command on the `php` container as you would do on any docker
 
 ### Configuring PHP
 
-To change PHP's configuration edit `.docker/conf/php/php.ini`.
-Same goes for `.docker/conf/php/xdebug.ini`.
+To change PHP's configuration edit `./php/php.ini`.
+Same goes for `./php/xdebug.ini`.
 
 You can add any .ini file in this directory, don't forget to map them by adding a new line in the php's `volume` section of the `docker-compose.yml` file.
 
 ### Configuring PostgreSQL
 
-Any .sh or .sql file you add in `./.docker/conf/postgres` will be automatically loaded at boot time.
+Any .sh or .sql file you add in `./postgres` will be automatically loaded at boot time.
 
 If you want to change the db name, db user and db password simply edit the `.env` file at the project's root.
 

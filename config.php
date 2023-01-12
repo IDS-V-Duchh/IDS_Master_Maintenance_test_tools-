@@ -1,20 +1,28 @@
 <?php
+
 class ConnectDB
 {
     private $connect;
 
-    function connect($host,$port,$dbname, $user,$password)
+    public function connect($host, $port, $dbname, $user, $password)
     {
         if (!$this->connect) {
             $connString = "host=".$host." port=".$port." dbname=".$dbname." user=".$user." password=".$password;
-            return $this->connect = pg_pconnect($connString);
+            try {
+                $this->connect = pg_pconnect($connString);
+                return true;
+            } catch (\Throwable $th) {
+                logError($th->getMessage());
+                msg_error();
+                return false;
+            }
         }
     }
 
-    function disConnect()
+    public function disConnect()
     {
         if ($this->connect) {
-           return pg_close($this->connect);
+            return pg_close($this->connect);
         }
     }
 }
